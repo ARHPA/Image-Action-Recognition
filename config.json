@@ -1,0 +1,53 @@
+{
+    "name": "Mnist_LeNet",
+    "n_gpu": 1,
+
+    "arch": {
+        "type": "VIT",
+        "args": {
+            "img_size": 48,
+            "model_type": "ViT-B_16"
+        }
+    },
+    "data_loader": {
+        "type": "FER",
+        "args":{
+            "data_dir": "data/",
+            "batch_size": 128,
+            "shuffle": true,
+            "validation_split": 0.1,
+            "num_workers": 2
+        }
+    },
+    "optimizer": {
+        "type": "SGD",
+        "args":{
+            "lr": 3e-2,
+            "momentum": 0.9,
+            "weight_decay": 0
+        }
+    },
+    "loss": "cross_entropy_loss",
+    "metrics": [
+        "accuracy", "top_k_acc"
+    ],
+    "lr_scheduler": {
+        "type": "WarmupCosineSchedule",
+        "args": {
+            "warmup_steps": 500,
+            "t_total": 10000
+        }
+    },
+    "trainer": {
+        "epochs": 100,
+
+        "save_dir": "saved/",
+        "save_period": 1,
+        "verbosity": 2,
+        
+        "monitor": "min val_loss",
+        "early_stop": 10,
+
+        "tensorboard": true
+    }
+}
