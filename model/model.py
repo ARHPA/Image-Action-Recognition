@@ -32,7 +32,7 @@ class VIT(BaseModel):
         super().__init__()
         config = CONFIGS[model_type]
         self.model = VisionTransformer(config, img_size, zero_head=True, num_classes=num_classes)
-        # self.model.load_from(np.load("pretrained"))
+        self.model.load_from(np.load("ViT-B_16.npz"))
 
     def forward(self, x):
         x = self.model(x)

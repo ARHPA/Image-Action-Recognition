@@ -26,7 +26,6 @@ class FER(BaseDataLoader):
     def __init__(self, data_dir, batch_size, shuffle=True, validation_split=0.0, num_workers=1, training=True):
         trsfm = transforms.Compose([
             transforms.RandomHorizontalFlip(),
-            transforms.RandomVerticalFlip(),
             transforms.ToTensor(),
             transforms.Normalize((0.5077, 0.5077, 0.5077), (0.2120, 0.2120, 0.2120))
         ])
