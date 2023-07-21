@@ -5,15 +5,15 @@
     "arch": {
         "type": "VIT",
         "args": {
-            "img_size": 48,
+            "img_size": 224,
             "model_type": "ViT-B_16"
         }
     },
     "data_loader": {
-        "type": "FER",
+        "type": "Stanford40",
         "args":{
             "data_dir": "",
-            "batch_size": 128,
+            "batch_size": 1,
             "shuffle": true,
             "validation_split": 0.1,
             "num_workers": 2

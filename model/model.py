@@ -28,11 +28,11 @@ class MnistModel(BaseModel):
 
 
 class VIT(BaseModel):
-    def __init__(self, model_type, img_size, num_classes=7):
+    def __init__(self, model_type, img_size, num_classes=40):
         super().__init__()
         config = CONFIGS[model_type]
         self.model = VisionTransformer(config, img_size, zero_head=True, num_classes=num_classes)
-        self.model.load_from(np.load("ViT-B_16.npz"))
+        # self.model.load_from(np.load("ViT-B_16.npz"))
 
     def forward(self, x):
         x = self.model(x)
