@@ -30,13 +30,15 @@ class Trainer(BaseTrainer):
         self.train_metrics = MetricTracker('loss', *[m.__name__ for m in self.metric_ftns], writer=self.writer)
         self.valid_metrics = MetricTracker('loss', *[m.__name__ for m in self.metric_ftns], writer=self.writer)
 
-    def _train_epoch(self, epoch):
+    def _train_epoch(self, epoch, gradient_accumulation_steps):
         """
         Training logic for an epoch
 
         :param epoch: Integer, current training epoch.
+        :param gradient_accumulation_steps: gradient accumulation steps.
         :return: A log that contains average loss and metric in this epoch.
         """
+        self.gradient_accumulation_steps = gradient_accumulation_steps
         self.model.train()
         self.train_metrics.reset()
         for batch_idx, (data, target) in enumerate(self.data_loader):
@@ -44,20 +46,27 @@ class Trainer(BaseTrainer):
 
             self.optimizer.zero_grad()
             output, _ = self.model(data)
-            loss = self.criterion(output, target)
+            loss = self.criterion(output, target) / gradient_accumulation_steps
             loss.backward()
             self.optimizer.step()
 
             self.writer.set_step((epoch - 1) * self.len_epoch + batch_idx)
-            self.train_metrics.update('loss', loss.item())
+            self.train_metrics.update('loss', loss.item()*gradient_accumulation_steps)
             for met in self.metric_ftns:
                 self.train_metrics.update(met.__name__, met(output, target))
 
-            if batch_idx % self.log_step == 0:
+            if batch_idx % self.log_step == 0 and gradient_accumulation_steps == 1:
                 self.logger.debug('Train Epoch: {} {} Loss: {:.6f}'.format(
                     epoch,
                     self._progress(batch_idx),
                     loss.item()))
+                self.writer.add_image('input', make_grid(data.cpu(), nrow=8, normalize=True))
+
+            elif batch_idx % (self.log_step * gradient_accumulation_steps) == 0 and gradient_accumulation_steps > 1:
+                self.logger.debug('Train Epoch: {} {} Loss: {:.6f}'.format(
+                    epoch,
+                    self._progress(batch_idx*gradient_accumulation_steps),
+                    loss.item()*gradient_accumulation_steps))
                 self.writer.add_image('input', make_grid(data.cpu(), nrow=8, normalize=True))
 
             if batch_idx == self.len_epoch:

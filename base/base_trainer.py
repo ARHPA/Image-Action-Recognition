@@ -18,6 +18,7 @@ class BaseTrainer:
         self.optimizer = optimizer
 
         cfg_trainer = config['trainer']
+        self.gradient_accumulation_steps = cfg_trainer['gradient_accumulation_steps']
         self.epochs = cfg_trainer['epochs']
         self.save_period = cfg_trainer['save_period']
         self.monitor = cfg_trainer.get('monitor', 'off')
@@ -46,7 +47,7 @@ class BaseTrainer:
             self._resume_checkpoint(config.resume)
 
     @abstractmethod
-    def _train_epoch(self, epoch):
+    def _train_epoch(self, epoch, gradient_accumulation_steps):
         """
         Training logic for an epoch
 
@@ -60,7 +61,7 @@ class BaseTrainer:
         """
         not_improved_count = 0
         for epoch in range(self.start_epoch, self.epochs + 1):
-            result = self._train_epoch(epoch)
+            result = self._train_epoch(epoch, self.gradient_accumulation_steps)
 
             # save logged informations into log dict
             log = {'epoch': epoch}

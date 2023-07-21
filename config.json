@@ -13,7 +13,7 @@
         "type": "Stanford40",
         "args":{
             "data_dir": "",
-            "batch_size": 1,
+            "batch_size": 8,
             "shuffle": true,
             "validation_split": 0.1,
             "num_workers": 2
@@ -40,6 +40,7 @@
     },
     "trainer": {
         "epochs": 100,
+        "gradient_accumulation_steps": 8,
 
         "save_dir": "saved/",
         "save_period": 1,
