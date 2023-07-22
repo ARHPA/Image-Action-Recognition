@@ -86,7 +86,7 @@ $ wget https://storage.googleapis.com/vit_models/imagenet21k+imagenet2012/ViT-B_
 $ wget http://vision.stanford.edu/Datasets/Stanford40.zip
 $ unzip Stanford40.zip
 ```
-3. Run train.py file:
+3. Now you can change config.json and then run train.py file:
 ```bash   
 $ python train.py
 ```
