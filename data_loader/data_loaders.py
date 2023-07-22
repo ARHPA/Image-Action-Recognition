@@ -67,7 +67,7 @@ def creating_dataset():
     if not (os.path.exists(new_dataset_path)):
         os.mkdir(new_dataset_path)
         os.mkdir(new_dataset_path + '/' + 'train')
-        os.mkdir(new_dataset_path + '/' + 'test')
+        # os.mkdir(new_dataset_path + '/' + 'test')
 
     txts = os.listdir(labels_path)
     for txt in txts:
@@ -75,7 +75,8 @@ def creating_dataset():
         class_name = txt[0:idx]
         if class_name in ['actions.tx', 'test.tx', 'train.tx']:
             continue
-        train_or_test = txt[idx + 1:-4]
+        # train_or_test = txt[idx + 1:-4]
+        train_or_test = 'train'
         txt_contents = open(labels_path + '/' + txt)
         txt_contents = txt_contents.read()
         image_names = txt_contents.split('\n')
