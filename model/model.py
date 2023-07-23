@@ -32,18 +32,9 @@ class VIT(BaseModel):
         super().__init__()
         config = CONFIGS[model_type]
         self.model = VisionTransformer(config, img_size, zero_head=True, num_classes=num_classes)
-        # self.model.load_from(np.load("ViT-B_16.npz"))
+        self.model.load_from(np.load("ViT-B_16.npz"))
 
     def forward(self, x):
         x = self.model(x)
         return x
 
-# class SimpleCustomModel(BaseModel):
-#     def __init__(self, num_classes=7, *args):
-#         super().__init__(*args)
-#         self.model = torchvision.models.resnet18(True)
-#         self.model.fc = nn.Linear(in_features=512, out_features=num_classes, bias=True)
-#
-#     def forward(self, x):
-#         x = self.model(x)
-#         return x
