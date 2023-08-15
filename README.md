@@ -1,7 +1,7 @@
 # Image Action Recognition with Stanford40 Dataset and GUI
 
 
-This project is an Image Action Recognition system that uses the Stanford40 dataset. It allows users to interact with the system through a Graphical User Interface (GUI) to recognize actions performed in images and we use VIT model as the base model. The Stanford40 dataset contains images of 40 different human action classes, such as "applauding", "fishing", "holding an umbrella" etc.
+This project is an Image Action Recognition system that uses the Stanford40 action dataset. It allows users to interact with the system through a Graphical User Interface (GUI) to recognize actions performed in images and we use VIT model as the base model. The Stanford40 dataset contains images of 40 different human action classes, such as "applauding", "fishing", "holding an umbrella" etc.
 
 ## Table of Contents
 
